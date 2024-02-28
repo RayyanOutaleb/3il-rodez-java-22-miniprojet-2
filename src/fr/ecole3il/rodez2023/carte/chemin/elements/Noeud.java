@@ -1,4 +1,4 @@
-package fr.ecole3il.rodez2023.carte.chemin;
+package fr.ecole3il.rodez2023.carte.chemin.elements;
 
 import java.util.ArrayList;
 import java.util.List;
