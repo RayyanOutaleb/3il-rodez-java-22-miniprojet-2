@@ -45,7 +45,7 @@ public class Graphe<E> {
     }
 }
 
-class NoeudCout<E> {
+public class NoeudCout<E> {
     private Noeud<E> noeud;
     private double cout;
 
