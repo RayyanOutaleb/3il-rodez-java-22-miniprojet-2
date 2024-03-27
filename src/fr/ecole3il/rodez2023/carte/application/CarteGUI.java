@@ -17,14 +17,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-/**
- * @author p.roquart
- * voilà
- * donc
- * c'est la classe finale pour le gui quoi
- * enfin je sais pas
- * moi j'aime pas le java
- */
 public class CarteGUI extends JFrame {
 	private Carte carte;
 	private Case caseDepart;
@@ -51,7 +43,7 @@ public class CarteGUI extends JFrame {
 		};
 		cartePanel.setPreferredSize(new Dimension(carte.getLargeur() * 32, carte.getHauteur() * 32));
 
-		JComboBox<String> algorithmeComboBox = new JComboBox<>(new String[] { "Dijkstra", "A*" });
+		JComboBox<String> algorithmeComboBox = new JComboBox<>(new String[]{"Dijkstra", "A*"});
 		algorithmeComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -111,44 +103,50 @@ public class CarteGUI extends JFrame {
 		}
 
 		if (caseDepart != null && caseArrivee != null) {
-			Chemin chemin = algorithme.trouverChemin(carte, caseDepart.getX(), caseDepart.getY(), caseArrivee.getX(),
+			Chemin chemin = (Chemin) algorithme.trouverChemin(carte, caseDepart.getX(), caseDepart.getY(), caseArrivee.getX(),
 					caseArrivee.getY());
-			g.setColor(Color.RED);
-			for (Case c : chemin.getCases()) {
-				g.fillRect(c.getX() * 32, c.getY() * 32, 32, 32);
+			if (chemin != null) {
+				g.setColor(Color.RED);
+				for (Case c : chemin.getCases()) {
+					g.fillRect(c.getX() * 32, c.getY() * 32, 32, 32);
+				}
+			} else {
+				System.out.println("Aucun chemin trouvé.");
 			}
 		}
 	}
 
 	private void trouverChemin() {
 		if (caseDepart != null && caseArrivee != null) {
-			Chemin chemin = algorithme.trouverChemin(carte, caseDepart.getX(), caseDepart.getY(), caseArrivee.getX(),
+			Chemin chemin = (Chemin) algorithme.trouverChemin(carte, caseDepart.getX(), caseDepart.getY(), caseArrivee.getX(),
 					caseArrivee.getY());
-			System.out.println("Chemin le plus court :");
-			for (Case c : chemin.getCases()) {
-				System.out.println("[" + c.getX() + ", " + c.getY() + "]");
+			if (chemin != null) {
+				System.out.println("Chemin le plus court :");
+				for (Case c : chemin.getCases()) {
+					System.out.println("[" + c.getX() + ", " + c.getY() + "]");
+				}
+			} else {
+				System.out.println("Aucun chemin trouvé.");
 			}
 		}
 	}
 
 	private BufferedImage getTuileImage(Tuile tuile) {
-		// Bon, j'ai pas eu le temps de faire les images
-		// mais ça marche
 		BufferedImage image = new BufferedImage(32, 32, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = image.createGraphics();
 		switch (tuile) {
-		case DESERT:
-			g.setColor(Color.YELLOW);
-			break;
-		case MONTAGNES:
-			g.setColor(Color.GRAY);
-			break;
-		case PLAINE:
-			g.setColor(Color.GREEN);
-			break;
-		case FORET:
-			g.setColor(Color.DARK_GRAY);
-			break;
+			case DESERT:
+				g.setColor(Color.YELLOW);
+				break;
+			case MONTAGNES:
+				g.setColor(Color.GRAY);
+				break;
+			case PLAINE:
+				g.setColor(Color.GREEN);
+				break;
+			case FORET:
+				g.setColor(Color.DARK_GRAY);
+				break;
 		}
 		g.fillRect(0, 0, 32, 32);
 		g.dispose();
@@ -156,15 +154,9 @@ public class CarteGUI extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		// Créer une carte de test
-		/*Tuile[][] tuiles = new Tuile[][] { { Tuile.DESERT, Tuile.MONTAGNES, Tuile.PLAINE },
-				{ Tuile.FORET, Tuile.DESERT, Tuile.PLAINE }, { Tuile.PLAINE, Tuile.MONTAGNES, Tuile.FORET } };*/
-		// J'ai mis ça en test
-		// Donc OKLM en commentaires
 		GenerateurCarte gen = new GenerateurCarte();
-		Carte carte = gen.genererCarte(10, 10);//new Carte(tuiles);
+		Carte carte = gen.genererCarte(10, 10);
 
-		// Créer et afficher l'interface graphique
 		SwingUtilities.invokeLater(() -> {
 			CarteGUI carteGUI = new CarteGUI(carte);
 			carteGUI.setVisible(true);
