@@ -1,5 +1,6 @@
 package fr.ecole3il.rodez2023.carte.application;
 
+import fr.ecole3il.rodez2023.carte.AdaptateurAlgorithme;
 import fr.ecole3il.rodez2023.carte.chemin.algorithmes.AlgorithmeAEtoile;
 import fr.ecole3il.rodez2023.carte.chemin.algorithmes.AlgorithmeChemin;
 import fr.ecole3il.rodez2023.carte.chemin.algorithmes.AlgorithmeDijkstra;
@@ -17,12 +18,20 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+/**
+ * Classe représentant l'interface graphique de la carte.
+ */
 public class CarteGUI extends JFrame {
 	private Carte carte;
 	private Case caseDepart;
 	private Case caseArrivee;
 	private AlgorithmeChemin algorithme;
 
+	/**
+	 * Constructeur de la classe CarteGUI.
+	 *
+	 * @param carte la carte à afficher dans l'interface graphique
+	 */
 	public CarteGUI(Carte carte) {
 		this.carte = carte;
 		this.caseDepart = null;
@@ -103,7 +112,7 @@ public class CarteGUI extends JFrame {
 		}
 
 		if (caseDepart != null && caseArrivee != null) {
-			Chemin chemin = (Chemin) algorithme.trouverChemin(carte, caseDepart.getX(), caseDepart.getY(), caseArrivee.getX(),
+			Chemin chemin = AdaptateurAlgorithme.trouverChemin(algorithme, carte, caseDepart.getX(), caseDepart.getY(), caseArrivee.getX(),
 					caseArrivee.getY());
 			if (chemin != null) {
 				g.setColor(Color.RED);
@@ -118,7 +127,7 @@ public class CarteGUI extends JFrame {
 
 	private void trouverChemin() {
 		if (caseDepart != null && caseArrivee != null) {
-			Chemin chemin = (Chemin) algorithme.trouverChemin(carte, caseDepart.getX(), caseDepart.getY(), caseArrivee.getX(),
+			Chemin chemin = AdaptateurAlgorithme.trouverChemin(algorithme, carte, caseDepart.getX(), caseDepart.getY(), caseArrivee.getX(),
 					caseArrivee.getY());
 			if (chemin != null) {
 				System.out.println("Chemin le plus court :");
@@ -153,6 +162,11 @@ public class CarteGUI extends JFrame {
 		return image;
 	}
 
+	/**
+	 * Méthode principale pour exécuter l'application.
+	 *
+	 * @param args les arguments de la ligne de commande
+	 */
 	public static void main(String[] args) {
 		GenerateurCarte gen = new GenerateurCarte();
 		Carte carte = gen.genererCarte(10, 10);
